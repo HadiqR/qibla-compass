@@ -16,6 +16,8 @@
   const placeSearchError = document.getElementById('placeSearchError');
   const placeSearchResults = document.getElementById('placeSearchResults');
   const ticksGroup = document.getElementById('ticks');
+  const cardinalsGroup = document.getElementById('cardinals');
+  const pointerMarker = document.getElementById('pointerMarker');
   const prayersSection = document.getElementById('prayers');
   const prayersDate = document.getElementById('prayersDate');
   const prayersError = document.getElementById('prayersError');
@@ -57,10 +59,27 @@
   }
 
   // ---- Rendering ----
+  const ALIGNMENT_EPSILON_DEG = 1; // sensor readings jitter, so treat within 1° as "exact"
+  let isAligned = false;
+
   function updateNeedle() {
     if (qiblaBearing === null) return;
     const rotation = (qiblaBearing - deviceHeading + 360) % 360;
     needle.setAttribute('transform', `rotate(${rotation.toFixed(1)} 160 160)`);
+    updateAlignment(rotation);
+  }
+
+  function updateAlignment(rotation) {
+    // Only meaningful once the live device compass is actually tracking —
+    // before that, "rotation" is just the static bearing from true north,
+    // not a real measurement of which way the phone is pointing.
+    const angularDistance = Math.min(rotation, 360 - rotation);
+    const aligned = compassStarted && angularDistance <= ALIGNMENT_EPSILON_DEG;
+
+    if (aligned === isAligned) return;
+    isAligned = aligned;
+    pointerMarker.classList.toggle('is-aligned', aligned);
+    needle.classList.toggle('is-aligned', aligned);
   }
 
   function renderQibla(lat, lng, locationLabel, fullLocationLabel) {
@@ -73,6 +92,14 @@
     statusText.textContent = locationLabel;
     statusText.title = fullLocationLabel || '';
     retryLocationBtn.hidden = true;
+
+    // The needle's rest position (0° rotation) happens to line up with
+    // where "N" is drawn — that's just how the SVG is built, not because
+    // Qibla is actually north. Once a real bearing is known, swap the
+    // static N/E/S/W labels for a plain alignment marker so it's clear
+    // this is "point your phone here," not a geographic direction.
+    cardinalsGroup.setAttribute('hidden', '');
+    pointerMarker.removeAttribute('hidden');
 
     updateNeedle();
     maybeShowEnableCompassButton();

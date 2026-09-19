@@ -70,13 +70,23 @@
             <!-- degree ticks -->
             <g id="ticks"></g>
 
-            <!-- cardinal labels -->
-            <g class="cardinals" font-family="inherit">
+            <!-- cardinal labels: shown until a location is set -->
+            <g id="cardinals" class="cardinals" font-family="inherit">
               <text x="160" y="34" text-anchor="middle">N</text>
               <text x="286" y="166" text-anchor="middle">E</text>
               <text x="160" y="298" text-anchor="middle">S</text>
               <text x="34" y="166" text-anchor="middle">W</text>
             </g>
+
+            <!-- fixed alignment marker: swapped in once a location is set,
+                 replacing the cardinal labels so it's clear this is where
+                 to align the needle, not a geographic "north" indicator -->
+            <polygon
+              id="pointerMarker"
+              class="pointer-marker"
+              points="160,16 148,38 172,38"
+              hidden
+            ></polygon>
 
             <!-- needle group, rotated by JS -->
             <g id="needle" class="needle" transform="rotate(0 160 160)">
