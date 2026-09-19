@@ -15,7 +15,7 @@
    */
   function getCurrentLocation(onSuccess, onError) {
     if (!isSupported()) {
-      onError('Your browser does not support location detection. Enter a Plus Code instead.');
+      onError('Your browser does not support location detection. Search for a place instead.');
       return;
     }
 
@@ -29,16 +29,16 @@
       (error) => {
         switch (error.code) {
           case error.PERMISSION_DENIED:
-            onError('Location access was denied. Turn it on in your browser settings, or enter a Plus Code instead.');
+            onError('Location access was denied. Turn it on in your browser settings, or search for a place instead.');
             break;
           case error.POSITION_UNAVAILABLE:
-            onError('Your location is not available right now. Try again, or enter a Plus Code instead.');
+            onError('Your location is not available right now. Try again, or search for a place instead.');
             break;
           case error.TIMEOUT:
-            onError('Finding your location took too long. Try again, or enter a Plus Code instead.');
+            onError('Finding your location took too long. Try again, or search for a place instead.');
             break;
           default:
-            onError('Something went wrong finding your location. Enter a Plus Code instead.');
+            onError('Something went wrong finding your location. Search for a place instead.');
         }
       },
       {
