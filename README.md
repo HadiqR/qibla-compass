@@ -1,6 +1,6 @@
 # Qibla Compass
 
-A free, static web app that shows the Qibla direction from wherever you are. Uses your browser's location (or a place search) and a live compass to point toward the Kaaba — no paid APIs, no backend, no build step.
+A free, static web app that shows the Qibla direction and daily prayer times from wherever you are. Uses your browser's location (or a place search) and a live compass to point toward the Kaaba — no paid APIs, no backend, no build step.
 
 ## Features
 
@@ -8,7 +8,8 @@ A free, static web app that shows the Qibla direction from wherever you are. Use
 - Calculates the Qibla bearing and distance to the Kaaba using spherical trigonometry — no external service needed.
 - Live compass needle driven by the device's magnetometer (`DeviceOrientationEvent`), including the iOS permission prompt.
 - Shows the day's prayer times (Fajr, Sunrise, Dhuhr, Asr, Maghrib, Isha) for the same location, via the free [Aladhan API](https://aladhan.com/prayer-times-api) — calculated using the **University of Islamic Sciences, Karachi** method. Falls back to the last successfully fetched times for that place if the request fails.
-- Installable as a PWA (Add to Home Screen) with offline support for the app shell.
+- Installable as a PWA (Add to Home Screen, custom icon set) with offline support for the app shell via a service worker.
+- Responsive layout: single-column on mobile, two-column on wider screens.
 - Works on mobile and desktop browsers, deployable as a static site.
 
 ## A note on accuracy
@@ -18,7 +19,7 @@ Because the search fallback resolves to city/place-level coordinates rather than
 ## Requirements
 
 - A modern mobile or desktop browser.
-- HTTPS for GPS and compass access (localhost is exempt for local dev).
+- HTTPS for GPS, compass, and service-worker access (localhost is exempt for local dev).
 
 ## Setup
 
