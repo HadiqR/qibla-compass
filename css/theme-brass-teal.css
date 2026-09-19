@@ -44,29 +44,59 @@ body {
   white-space: nowrap;
 }
 
-.app {
-  min-height: 100%;
+/* Site header (full-width) */
+
+.site-header {
+  background: var(--panel);
+  border-bottom: 1px solid var(--panel-edge);
+  padding: 1.5rem 1.25rem;
+}
+
+.site-header-inner {
   max-width: 480px;
   margin: 0 auto;
-  padding: 1.5rem 1.25rem 2.5rem;
+  text-align: center;
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--sand);
+}
+
+.tagline {
+  margin: 0.4rem 0 0;
+  font-size: 0.85rem;
+  color: var(--sand-dim);
+  line-height: 1.4;
+}
+
+.app {
+  min-height: 100%;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 1.75rem 1.25rem 2.5rem;
   display: flex;
   flex-direction: column;
   gap: 1.75rem;
 }
 
-/* Header */
-
-.app-header {
+.app-main {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 1.75rem;
 }
 
-.wordmark {
-  font-family: var(--font-display);
-  font-size: 1.15rem;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-  color: var(--sand);
+/* Shared panel styling */
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--panel-edge);
+  border-radius: 16px;
+  padding: 1.25rem 1.25rem 1.4rem;
 }
 
 /* Status line */
@@ -106,7 +136,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 1.75rem;
 }
 
 .dial {
@@ -215,6 +245,68 @@ body {
   margin-top: 0.2rem;
 }
 
+/* Prayer times */
+
+.prayers {
+  border-top: 1px solid var(--panel-edge);
+  padding-top: 1.25rem;
+  margin-top: 1.25rem;
+  text-align: center;
+}
+
+.prayers-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.35rem;
+}
+
+.prayer-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.prayer-time {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.05rem;
+  color: var(--brass);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.prayer-label {
+  margin-top: 0.2rem;
+  font-size: 0.6rem;
+  color: var(--sand-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.prayers-error {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+  color: var(--rust);
+}
+
+.prayers-disclaimer {
+  margin: 0.85rem 0 0;
+  font-size: 0.65rem;
+  color: var(--sand-dim);
+  opacity: 0.7;
+}
+
+@media (max-width: 360px) {
+  .prayer-time {
+    font-size: 0.85rem;
+  }
+  .prayer-label {
+    font-size: 0.52rem;
+  }
+}
+
 /* Manual entry */
 
 .manual {
@@ -229,9 +321,10 @@ body {
   color: var(--sand-dim);
   font-family: var(--font-ui);
   font-size: 0.9rem;
+  font-weight: 600;
   text-align: left;
   cursor: pointer;
-  padding: 0.4rem 0;
+  padding: 0.4rem 0 0;
 }
 
 .manual-toggle:hover {
@@ -239,10 +332,10 @@ body {
 }
 
 .manual-panel {
-  margin-top: 0.75rem;
+  margin-top: 0.35rem;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.65rem;
 }
 
 .manual-help {
@@ -372,5 +465,50 @@ button:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   .needle {
     transition: none;
+  }
+}
+
+/* Desktop layout: two columns instead of a narrow mobile-width column
+   floating in the middle of a wide viewport. */
+
+@media (min-width: 760px) {
+  .site-header-inner {
+    max-width: 900px;
+  }
+
+  .wordmark {
+    font-size: 1.5rem;
+  }
+
+  .app {
+    max-width: 900px;
+  }
+
+  .app-main {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    align-items: start;
+    gap: 2rem;
+  }
+
+  .panel-location {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .panel-results {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .dial-wrap {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    position: sticky;
+    top: 2rem;
+  }
+
+  .dial {
+    width: 340px;
   }
 }

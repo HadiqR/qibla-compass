@@ -21,7 +21,7 @@
       return { ok: false, message: 'Type a place name first.' };
     }
 
-    const url = `${ENDPOINT}?format=jsonv2&limit=5&q=${encodeURIComponent(trimmed)}`;
+    const url = `${ENDPOINT}?format=jsonv2&limit=5&addressdetails=1&q=${encodeURIComponent(trimmed)}`;
 
     let response;
     try {
@@ -49,11 +49,31 @@
 
     const results = data.map((item) => ({
       label: item.display_name,
+      shortLabel: buildShortLabel(item),
       lat: parseFloat(item.lat),
       lng: parseFloat(item.lon),
     }));
 
     return { ok: true, results };
+  }
+
+  // Nominatim's display_name is a long full address (neighborhood, city
+  // district, city, state, postal code, country). Use the structured
+  // `address` fields (from addressdetails=1) to build a short "place, city"
+  // label instead of guessing from a comma-split of the full string.
+  function buildShortLabel(item) {
+    const addr = item.address || {};
+    const firstSegment = item.display_name.split(',')[0].trim();
+
+    const primary =
+      addr.neighbourhood || addr.suburb || addr.village || addr.town || firstSegment;
+
+    const locality = addr.city || addr.county || addr.state_district || addr.state;
+
+    if (primary && locality && primary !== locality) {
+      return `${primary}, ${locality}`;
+    }
+    return locality || primary;
   }
 
   global.PlaceSearch = { searchPlace };

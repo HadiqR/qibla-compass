@@ -16,18 +16,49 @@
 </head>
 <body>
 
-  <div class="app">
+  <header class="site-header">
+    <div class="site-header-inner">
+      <span class="wordmark">🕋 Qibla Compass</span>
+      <p class="tagline">Qibla direction and daily prayer times for any location — right in your browser.</p>
+    </div>
+  </header>
 
-    <header class="app-header">
-      <span class="wordmark">Qibla Compass</span>
-    </header>
+  <div class="app">
 
     <main class="app-main">
 
-      <!-- Location status line -->
-      <section class="status" id="status" aria-live="polite">
-        <p class="status-text" id="statusText">Finding your location…</p>
-        <button class="status-action" id="retryLocationBtn" hidden>Try again</button>
+      <!-- Location + search -->
+      <section class="panel panel-location">
+        <div class="status" id="status" aria-live="polite">
+          <p class="status-text" id="statusText">Finding your location…</p>
+          <button class="status-action" id="retryLocationBtn" hidden>Try again</button>
+        </div>
+
+        <div class="manual">
+          <button class="manual-toggle" id="manualToggle" aria-expanded="false" aria-controls="manualPanel">
+            Search for a place instead
+          </button>
+
+          <div class="manual-panel" id="manualPanel" hidden>
+            <p class="manual-help">
+              Type a city, address, or landmark to find its Qibla direction and prayer times.
+            </p>
+            <form id="placeSearchForm" class="manual-form">
+              <label class="visually-hidden" for="placeSearchInput">Place name</label>
+              <input
+                type="text"
+                id="placeSearchInput"
+                class="manual-input"
+                placeholder="e.g. Jakarta, Indonesia"
+                autocomplete="off"
+                spellcheck="false"
+              />
+              <button type="submit" class="manual-submit">Search</button>
+            </form>
+            <p class="manual-error" id="placeSearchError" hidden></p>
+            <ul class="manual-results" id="placeSearchResults" hidden></ul>
+          </div>
+        </div>
       </section>
 
       <!-- Compass dial (hero) -->
@@ -63,42 +94,51 @@
         </button>
       </section>
 
-      <!-- Readouts -->
-      <section class="readouts">
-        <div class="readout">
-          <span class="readout-value" id="bearingValue">—</span>
-          <span class="readout-label">from true north</span>
+      <!-- Readouts + prayer times -->
+      <section class="panel panel-results">
+        <div class="readouts">
+          <div class="readout">
+            <span class="readout-value" id="bearingValue">—</span>
+            <span class="readout-label">from true north</span>
+          </div>
+          <div class="readout">
+            <span class="readout-value" id="distanceValue">—</span>
+            <span class="readout-label">to the Kaaba</span>
+          </div>
         </div>
-        <div class="readout">
-          <span class="readout-value" id="distanceValue">—</span>
-          <span class="readout-label">to the Kaaba</span>
-        </div>
-      </section>
 
-      <!-- Manual location entry -->
-      <section class="manual">
-        <button class="manual-toggle" id="manualToggle" aria-expanded="false" aria-controls="manualPanel">
-          Search for a place instead
-        </button>
-
-        <div class="manual-panel" id="manualPanel" hidden>
-          <p class="manual-help">
-            Type a city, address, or landmark to find its Qibla direction.
+        <div class="prayers" id="prayers" hidden>
+          <div class="prayers-grid" id="prayersGrid">
+            <div class="prayer-col">
+              <span class="prayer-time" data-prayer="fajr">--:--</span>
+              <span class="prayer-label">Fajr</span>
+            </div>
+            <div class="prayer-col">
+              <span class="prayer-time" data-prayer="sunrise">--:--</span>
+              <span class="prayer-label">Sunrise</span>
+            </div>
+            <div class="prayer-col">
+              <span class="prayer-time" data-prayer="dhuhr">--:--</span>
+              <span class="prayer-label">Dhuhr</span>
+            </div>
+            <div class="prayer-col">
+              <span class="prayer-time" data-prayer="asr">--:--</span>
+              <span class="prayer-label">Asr</span>
+            </div>
+            <div class="prayer-col">
+              <span class="prayer-time" data-prayer="maghrib">--:--</span>
+              <span class="prayer-label">Maghrib</span>
+            </div>
+            <div class="prayer-col">
+              <span class="prayer-time" data-prayer="isha">--:--</span>
+              <span class="prayer-label">Isha</span>
+            </div>
+          </div>
+          <p class="prayers-error" id="prayersError" hidden></p>
+          <p class="prayers-disclaimer">
+            <span id="prayersDate"></span>
+            Prayer times via Aladhan API — University of Islamic Sciences, Karachi method.
           </p>
-          <form id="placeSearchForm" class="manual-form">
-            <label class="visually-hidden" for="placeSearchInput">Place name</label>
-            <input
-              type="text"
-              id="placeSearchInput"
-              class="manual-input"
-              placeholder="e.g. Jakarta, Indonesia"
-              autocomplete="off"
-              spellcheck="false"
-            />
-            <button type="submit" class="manual-submit">Search</button>
-          </form>
-          <p class="manual-error" id="placeSearchError" hidden></p>
-          <ul class="manual-results" id="placeSearchResults" hidden></ul>
         </div>
       </section>
 
@@ -114,6 +154,7 @@
   <script src="js/qibla.js"></script>
   <script src="js/geolocation.js"></script>
   <script src="js/placeSearch.js"></script>
+  <script src="js/prayerTimes.js"></script>
   <script src="js/compass.js"></script>
   <script src="js/app.js"></script>
   <script>

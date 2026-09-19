@@ -9,7 +9,7 @@
  * Bump CACHE_NAME whenever the app shell files change, so old caches get
  * cleaned up and clients pick up the new version.
  */
-const CACHE_NAME = 'qibla-compass-v1';
+const CACHE_NAME = 'qibla-compass-v3';
 
 const APP_SHELL = [
   './',
@@ -18,6 +18,7 @@ const APP_SHELL = [
   './js/qibla.js',
   './js/geolocation.js',
   './js/placeSearch.js',
+  './js/prayerTimes.js',
   './js/compass.js',
   './js/app.js',
   './assets/manifest.json',

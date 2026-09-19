@@ -16,6 +16,18 @@
   const placeSearchError = document.getElementById('placeSearchError');
   const placeSearchResults = document.getElementById('placeSearchResults');
   const ticksGroup = document.getElementById('ticks');
+  const prayersSection = document.getElementById('prayers');
+  const prayersDate = document.getElementById('prayersDate');
+  const prayersError = document.getElementById('prayersError');
+  const prayersGrid = document.getElementById('prayersGrid');
+  const prayerTimeEls = {
+    fajr: prayersGrid.querySelector('[data-prayer="fajr"]'),
+    sunrise: prayersGrid.querySelector('[data-prayer="sunrise"]'),
+    dhuhr: prayersGrid.querySelector('[data-prayer="dhuhr"]'),
+    asr: prayersGrid.querySelector('[data-prayer="asr"]'),
+    maghrib: prayersGrid.querySelector('[data-prayer="maghrib"]'),
+    isha: prayersGrid.querySelector('[data-prayer="isha"]'),
+  };
 
   // ---- State ----
   let qiblaBearing = null; // degrees from true north, or null until known
@@ -51,7 +63,7 @@
     needle.setAttribute('transform', `rotate(${rotation.toFixed(1)} 160 160)`);
   }
 
-  function renderQibla(lat, lng, locationLabel) {
+  function renderQibla(lat, lng, locationLabel, fullLocationLabel) {
     qiblaBearing = window.Qibla.bearingToKaaba(lat, lng);
     const distanceKm = window.Qibla.distanceToKaabaKm(lat, lng);
 
@@ -59,15 +71,43 @@
     distanceValue.textContent = `${Math.round(distanceKm).toLocaleString()} km`;
 
     statusText.textContent = locationLabel;
+    statusText.title = fullLocationLabel || '';
     retryLocationBtn.hidden = true;
 
     updateNeedle();
     maybeShowEnableCompassButton();
+    renderPrayerTimes(lat, lng);
   }
 
   function renderLocationError(message) {
     statusText.textContent = message;
     retryLocationBtn.hidden = false;
+  }
+
+  // ---- Prayer times ----
+  async function renderPrayerTimes(lat, lng) {
+    prayersSection.hidden = false;
+    prayersError.hidden = true;
+    prayersGrid.hidden = false;
+    prayersDate.textContent = 'Loading prayer times… · ';
+
+    const result = await window.PrayerTimes.getPrayerTimes(lat, lng);
+
+    if (!result.ok) {
+      prayersDate.textContent = '';
+      prayersGrid.hidden = true;
+      prayersError.textContent = result.message;
+      prayersError.hidden = false;
+      return;
+    }
+
+    prayersDate.textContent = result.stale
+      ? `${result.dateLabel} (cached) · `
+      : `${result.dateLabel} · `;
+
+    Object.keys(prayerTimeEls).forEach((key) => {
+      prayerTimeEls[key].textContent = result.timings[key];
+    });
   }
 
   // ---- Compass permission / watching ----
@@ -150,7 +190,7 @@
       btn.addEventListener('click', () => {
         clearPlaceResults();
         placeSearchInput.value = '';
-        renderQibla(place.lat, place.lng, `Using ${place.label}`);
+        renderQibla(place.lat, place.lng, `Using ${place.shortLabel}`, place.label);
       });
       li.appendChild(btn);
       placeSearchResults.appendChild(li);
@@ -180,7 +220,7 @@
 
     if (result.results.length === 1) {
       const place = result.results[0];
-      renderQibla(place.lat, place.lng, `Using ${place.label}`);
+      renderQibla(place.lat, place.lng, `Using ${place.shortLabel}`, place.label);
     } else {
       showPlaceResults(result.results);
     }
