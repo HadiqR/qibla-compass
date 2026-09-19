@@ -72,7 +72,6 @@ body {
 }
 
 .app {
-  min-height: 100%;
   width: 100%;
   max-width: 480px;
   margin: 0 auto;
@@ -475,7 +474,6 @@ body {
 
 .app-footer {
   text-align: center;
-  margin-top: auto;
 }
 
 .app-footer p {

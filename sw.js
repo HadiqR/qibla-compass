@@ -9,7 +9,7 @@
  * Bump CACHE_NAME whenever the app shell files change, so old caches get
  * cleaned up and clients pick up the new version.
  */
-const CACHE_NAME = 'qibla-compass-v5';
+const CACHE_NAME = 'qibla-compass-v7';
 
 const APP_SHELL = [
   './',
