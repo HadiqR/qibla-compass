@@ -1,0 +1,10 @@
+{
+  "name": "Qibla Compass",
+  "short_name": "Qibla",
+  "description": "Find the Qibla direction from wherever you are.",
+  "start_url": "../index.html",
+  "display": "standalone",
+  "background_color": "#0B2E33",
+  "theme_color": "#0B2E33",
+  "icons": []
+}

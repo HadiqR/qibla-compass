@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Qibla Compass</title>
+<meta name="description" content="Find the Qibla direction from wherever you are, using your phone's location and compass." />
+<link rel="manifest" href="assets/manifest.json" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🕋%3C/text%3E%3C/svg%3E" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div class="app">
+
+    <header class="app-header">
+      <span class="wordmark">Qibla Compass</span>
+    </header>
+
+    <main class="app-main">
+
+      <!-- Location status line -->
+      <section class="status" id="status" aria-live="polite">
+        <p class="status-text" id="statusText">Finding your location…</p>
+        <button class="status-action" id="retryLocationBtn" hidden>Try again</button>
+      </section>
+
+      <!-- Compass dial (hero) -->
+      <section class="dial-wrap">
+        <div class="dial" id="dial" aria-hidden="false">
+          <svg id="dialSvg" viewBox="0 0 320 320" role="img" aria-label="Compass showing the Qibla direction">
+            <circle class="dial-face" cx="160" cy="160" r="150" />
+
+            <!-- degree ticks -->
+            <g id="ticks"></g>
+
+            <!-- cardinal labels -->
+            <g class="cardinals" font-family="inherit">
+              <text x="160" y="34" text-anchor="middle">N</text>
+              <text x="286" y="166" text-anchor="middle">E</text>
+              <text x="160" y="298" text-anchor="middle">S</text>
+              <text x="34" y="166" text-anchor="middle">W</text>
+            </g>
+
+            <!-- needle group, rotated by JS -->
+            <g id="needle" class="needle" transform="rotate(0 160 160)">
+              <line x1="160" y1="160" x2="160" y2="46" class="needle-line needle-line--qibla" />
+              <circle cx="160" cy="44" r="14" class="needle-kaaba-bg" />
+              <text x="160" y="49" text-anchor="middle" class="needle-kaaba-icon">🕋</text>
+            </g>
+
+            <circle class="dial-hub" cx="160" cy="160" r="7" />
+          </svg>
+        </div>
+
+        <button class="enable-compass-btn" id="enableCompassBtn" hidden>
+          Turn on compass
+        </button>
+      </section>
+
+      <!-- Readouts -->
+      <section class="readouts">
+        <div class="readout">
+          <span class="readout-value" id="bearingValue">—</span>
+          <span class="readout-label">from true north</span>
+        </div>
+        <div class="readout">
+          <span class="readout-value" id="distanceValue">—</span>
+          <span class="readout-label">to the Kaaba</span>
+        </div>
+      </section>
+
+      <!-- Manual location entry -->
+      <section class="manual">
+        <button class="manual-toggle" id="manualToggle" aria-expanded="false" aria-controls="manualPanel">
+          Search for a place instead
+        </button>
+
+        <div class="manual-panel" id="manualPanel" hidden>
+          <p class="manual-help">
+            Type a city, address, or landmark to find its Qibla direction.
+          </p>
+          <form id="placeSearchForm" class="manual-form">
+            <label class="visually-hidden" for="placeSearchInput">Place name</label>
+            <input
+              type="text"
+              id="placeSearchInput"
+              class="manual-input"
+              placeholder="e.g. Jakarta, Indonesia"
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <button type="submit" class="manual-submit">Search</button>
+          </form>
+          <p class="manual-error" id="placeSearchError" hidden></p>
+          <ul class="manual-results" id="placeSearchResults" hidden></ul>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="app-footer">
+      <p>Works entirely in your browser. Your location never leaves your device.</p>
+      <p>Place search powered by <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors.</p>
+    </footer>
+
+  </div>
+
+  <script src="js/qibla.js"></script>
+  <script src="js/geolocation.js"></script>
+  <script src="js/placeSearch.js"></script>
+  <script src="js/compass.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

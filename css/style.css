@@ -1,0 +1,375 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap');
+
+:root {
+  --bg: #111113;
+  --surface: #1C1C1E;
+  --surface-edge: #2C2C2E;
+  --accent: #FF453A;
+  --accent-bright: #FF6961;
+  --text: #FFFFFF;
+  --text-dim: #8E8E93;
+  --label: #98989D;
+  --footer: #48484A;
+
+  --font-display: 'Oswald', 'Arial Narrow', sans-serif;
+  --font-ui: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.app {
+  min-height: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+/* Header */
+
+.app-header {
+  display: flex;
+  justify-content: center;
+}
+
+.wordmark {
+  font-family: var(--font-ui);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--text);
+}
+
+/* Status line */
+
+.status {
+  text-align: center;
+  min-height: 2.4rem;
+}
+
+.status-text {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+.status-action {
+  margin-top: 0.5rem;
+  background: none;
+  border: 1px solid var(--surface-edge);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 0.4rem 1rem;
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.status-action:hover {
+  border-color: var(--accent);
+  color: var(--accent-bright);
+}
+
+/* Compass dial */
+
+.dial-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.dial {
+  width: min(78vw, 320px);
+  aspect-ratio: 1 / 1;
+  filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.5));
+}
+
+.dial svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.dial-face {
+  fill: var(--surface);
+  stroke: var(--surface-edge);
+  stroke-width: 2;
+}
+
+#ticks line {
+  stroke: var(--surface-edge);
+  stroke-width: 1;
+}
+
+#ticks line.tick-major {
+  stroke: var(--text-dim);
+  stroke-width: 2;
+}
+
+.cardinals text {
+  fill: var(--text);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.needle {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  transform-box: view-box;
+  transform-origin: 0 0;
+}
+
+.needle-line--qibla {
+  stroke: var(--accent);
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.needle-kaaba-bg {
+  fill: var(--bg);
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+
+.needle-kaaba-icon {
+  font-size: 18px;
+}
+
+.dial-hub {
+  fill: var(--accent);
+}
+
+.enable-compass-btn {
+  background: var(--accent);
+  color: var(--text);
+  border: none;
+  border-radius: 999px;
+  padding: 0.7rem 1.5rem;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.enable-compass-btn:hover {
+  background: var(--accent-bright);
+}
+
+/* Readouts */
+
+.readouts {
+  display: flex;
+  justify-content: center;
+  gap: 2.5rem;
+}
+
+.readout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.readout-value {
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  font-weight: 600;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+}
+
+.readout-label {
+  font-size: 0.72rem;
+  color: var(--label);
+  margin-top: 0.2rem;
+  text-transform: none;
+}
+
+/* Manual entry */
+
+.manual {
+  border-top: 1px solid var(--surface-edge);
+  padding-top: 1.25rem;
+}
+
+.manual-toggle {
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  text-align: left;
+  cursor: pointer;
+  padding: 0.4rem 0;
+}
+
+.manual-toggle:hover {
+  color: var(--accent-bright);
+}
+
+.manual-panel {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.manual-help {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+.manual-help code {
+  background: var(--surface);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.85em;
+}
+
+.manual-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.manual-input {
+  flex: 1;
+  background: var(--surface);
+  border: 1px solid var(--surface-edge);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 0.65rem 0.8rem;
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
+}
+
+.manual-input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.manual-submit {
+  background: var(--surface-edge);
+  color: var(--text);
+  border: none;
+  border-radius: 8px;
+  padding: 0.65rem 1rem;
+  font-family: var(--font-ui);
+  font-weight: 500;
+  font-size: 0.9rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.manual-submit:hover {
+  background: var(--accent);
+  color: var(--text);
+}
+
+.manual-error {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--accent);
+}
+
+.manual-results {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.manual-result-item {
+  width: 100%;
+  text-align: left;
+  background: var(--surface);
+  border: 1px solid var(--surface-edge);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+  font-family: var(--font-ui);
+  font-size: 0.88rem;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.manual-result-item:hover {
+  border-color: var(--accent);
+  color: var(--accent-bright);
+}
+
+/* Footer */
+
+.app-footer {
+  text-align: center;
+  margin-top: auto;
+}
+
+.app-footer p {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--footer);
+}
+
+.app-footer p + p {
+  margin-top: 0.25rem;
+}
+
+.app-footer a {
+  color: var(--footer);
+}
+
+.app-footer a:hover {
+  color: var(--accent-bright);
+}
+
+/* Buttons: focus visibility */
+
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  .needle {
+    transition: none;
+  }
+}
